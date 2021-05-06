@@ -7,10 +7,27 @@ const Navbar = (props) =>{
         <nav>
 
             <Link to = '/'> Home</Link>
-            {' | -- |'} {' -- | '}
-            <Link to = '/signup' className = 'navtext'> Signup</Link>
-            {' | -- |'} {' -- | '}
-            <Link to = '/login' className = 'navtext'> Login</Link> 
+            {
+                props.user ?
+                <>
+                {' | -- |'} {' -- | '}
+                <Link to = '/profile' className = 'navtext'> Profile</Link>
+                {' | -- |'} {' -- | '}
+                <Link to = '/cart' className = 'navtext'> My Cart</Link>
+                {' | -- |'} {' -- | '}
+                <span onClick={() => {
+                            localStorage.removeItem('userId')
+                             props.setUser(null)
+                }}><Link className="navLink" to="/login" className = 'navtext'>Logout</Link></span>
+                </>
+                :
+                <>
+                {' | -- |'} {' -- | '}
+                <Link to = '/signup' className = 'navtext'> Signup</Link>
+                {' | -- |'} {' -- | '}
+                <Link to = '/login' className = 'navtext'> Login</Link> 
+                </>
+            }
         
         </nav>
     )

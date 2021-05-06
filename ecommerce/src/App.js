@@ -1,10 +1,17 @@
 import './App.css';
 import {Redirect, Route} from 'react-router-dom'
+import { useEffect, useState } from 'react';
+import axios from 'axios'
+
 import Navbar from './navbar'
 import Home from './componet/pages/home'
 import Signup from './componet/pages/signup'
 import Login from './componet/pages/login'
-import { useEffect, useState } from 'react';
+import Profile from './componet/pages/profile'
+import Cart from './componet/pages/cart'
+import UserOrders from './componet/userorders'
+import Useraddress from './componet/useraddress'
+import Userwallet from './componet/userwallet'
 
 function App() {
   const [user, setUser] = useState (null)
@@ -13,7 +20,11 @@ function App() {
 
     const userId = localStorage.getItem('userId')
     try {
-       setUser('1')
+      const user = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/users/verify/${userId}`)
+      if(user.data){
+        console.log(user)
+        setUser(user.data.user)
+      }
     }  catch(error){
       console.log(error)
     }
@@ -22,25 +33,66 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar/>
+      <Navbar user = {user} setUser = {setUser}/>
 
 
       <Route path = '/' exact render ={ () =>( <Home/>)}/>
 
 
-      <Route path = '/signup'  render ={ () =>{ 
+      <Route path = '/profile'  render ={ () =>{ 
         if (user){
-          return <Signup/>
+          return <Profile user = {user}/>
         }else{
           return<Redirect to = '/login'/>
+        }
+      }}/>
+
+      <Route path = '/cart'  render ={ () =>{ 
+        if (user){
+          return <Cart user = {user}/>
+        }else{
+          return<Redirect to = '/login'/>
+        }
+      }}/>
+
+      <Route path = '/userorders' exact  render ={ () =>{ 
+        if (user){
+          return <UserOrders user = {user}/>
+        }else{
+          return<Redirect to = '/login'/>
+        }
+      }}/>
+
+      <Route path = '/useraddress' exact  render ={ () =>{ 
+        if (user){
+          return <Useraddress user = {user}/>
+        }else{
+          return<Redirect to = '/login'/>
+        }
+      }}/>
+
+      <Route path = '/userwallet' exact  render ={ () =>{ 
+        if (user){
+          return <Userwallet user = {user}/>
+        }else{
+          return<Redirect to = '/login'/>
+        }
+      }}/>   
+
+
+      <Route path = '/signup'  render ={ () =>{ 
+        if (user){
+          return<Redirect to = '/'/>
+        }else{
+          return <Signup setUser = {setUser}/>
         }
       }}/>
       <Route path = '/login' render ={ () =>{ 
         
         if (user){
-          return <Login/>
+          return<Redirect to = '/'/>
         }else{
-          return<Redirect to = '/login'/>
+          return <Login  setUser = {setUser}/>
         }
       }}/>
     </div>

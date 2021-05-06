@@ -1,16 +1,34 @@
 import axios from 'axios'
 import { useState} from 'react'
 
-const Login = () =>{
+const Login = (props) =>{
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+
+
+
+    const submitform = (e) =>{
+        e.preventDefault()
+       
+            axios.post (`${process.env.REACT_APP_BACKEND_URL}/users/login`, {
+                email: email,
+                password: password
+            }).then ((response) =>{
+                console.log(response.data)
+                props.setUser(response.data.user)
+                localStorage.setItem('userId', response.data.user.id)
+            }).catch((error) =>{
+                console.log(error)
+            })
+    
+    }
 
     return(
         <div className = 'loginpage'>
                 <div>
 
-                    <form >
+                    <form onSubmit = {submitform}>
                             <h3>Login to your Account</h3>
                             <div className = 'input'>
                         
