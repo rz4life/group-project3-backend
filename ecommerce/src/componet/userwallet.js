@@ -3,7 +3,7 @@ const Userwallet = () =>{
     return(
 
         <div>
-            hello from wallet
+            hello from Wallet
         </div>
     )
 

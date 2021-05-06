@@ -3,7 +3,7 @@ const Useraddress = () =>{
     return(
 
         <div>
-            hello from Address
+            hello from addy
         </div>
     )
 

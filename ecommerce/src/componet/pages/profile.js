@@ -4,7 +4,6 @@ import {Link} from 'react-router-dom'
 const Profile = (props) =>{
 
         return(
-
             <div>
                
                     <h2>User Profile</h2>
