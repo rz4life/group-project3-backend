@@ -3,7 +3,7 @@ const Home = () =>{
     return(
 
 
-        <div>hello from Home </div>
+        <div className = 'home'>hello from Home </div>
         
     )
 
