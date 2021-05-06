@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useState} from 'react'
 
-const Signup = () =>{
+const Signup = (props) =>{
 
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
@@ -16,8 +16,26 @@ const Signup = () =>{
 
     const submitform = (e) =>{
         e.preventDefault()
-        setNextpage('firstpage')
 
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/users/signup`,{
+            name:name,
+            email:email,
+            password: password,
+            cardName: cardname,
+            cardNumber: cardnumber,
+            expDate: expdate,
+            address: useraddress,
+            city: userCity,
+            zipCode: userZipcode
+        }).then((response) =>{
+            console.log(response)
+            props.setUser(response.data.user)
+            localStorage.setItem('userId', response.data.user.id)
+
+        }).catch((error) =>{
+            console.log(error)
+        })
+        setNextpage('firstpage')
     }
 
     return(
